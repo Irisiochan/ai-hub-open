@@ -335,7 +335,7 @@ Generated component versions: **704**.
 | [duplexer2](https://www.npmjs.com/package/duplexer2/v/0.1.4) | 0.1.4 | BSD-3-Clause | Desktop | build/dev |
 | [ee-first](https://www.npmjs.com/package/ee-first/v/1.1.1) | 1.1.1 | MIT | Desktop, Gateway / Docker | runtime |
 | [ejs](https://www.npmjs.com/package/ejs/v/3.1.10) | 3.1.10 | Apache-2.0 | Desktop | build/dev |
-| [electron](https://www.npmjs.com/package/electron/v/43.4.0) | 43.4.0 | MIT | Desktop | build/dev |
+| [electron](https://www.npmjs.com/package/electron/v/43.7.6) | 43.7.6 | MIT | Desktop | build/dev |
 | [electron-builder](https://www.npmjs.com/package/electron-builder/v/26.15.3) | 26.15.3 | MIT | Desktop | build/dev |
 | [electron-builder-squirrel-windows](https://www.npmjs.com/package/electron-builder-squirrel-windows/v/26.15.3) | 26.15.3 | MIT | Desktop | build/dev |
 | [electron-publish](https://www.npmjs.com/package/electron-publish/v/26.15.3) | 26.15.3 | MIT | Desktop | build/dev |
@@ -428,7 +428,7 @@ Generated component versions: **704**.
 | [ini](https://www.npmjs.com/package/ini/v/1.3.8) | 1.3.8 | ISC | Desktop, Gateway / Docker | runtime |
 | [ini](https://www.npmjs.com/package/ini/v/4.1.3) | 4.1.3 | ISC | Android | build/dev |
 | [inline-style-parser](https://www.npmjs.com/package/inline-style-parser/v/0.2.7) | 0.2.7 | MIT | Web UI | runtime |
-| [ip-address](https://www.npmjs.com/package/ip-address/v/10.5.0) | 10.5.0 | MIT | Desktop, Gateway / Docker | runtime |
+| [ip-address](https://www.npmjs.com/package/ip-address/v/10.7.2) | 10.7.2 | MIT | Desktop, Gateway / Docker | runtime |
 | [ipaddr.js](https://www.npmjs.com/package/ipaddr.js/v/1.9.1) | 1.9.1 | MIT | Desktop, Gateway / Docker | runtime |
 | [is-alphabetical](https://www.npmjs.com/package/is-alphabetical/v/2.0.1) | 2.0.1 | MIT | Web UI | runtime |
 | [is-alphanumerical](https://www.npmjs.com/package/is-alphanumerical/v/2.0.1) | 2.0.1 | MIT | Web UI | runtime |
@@ -700,8 +700,8 @@ Generated component versions: **704**.
 | [type-is](https://www.npmjs.com/package/type-is/v/1.6.18) | 1.6.18 | MIT | Desktop, Gateway / Docker | runtime |
 | [type-is](https://www.npmjs.com/package/type-is/v/2.1.0) | 2.1.0 | MIT | Desktop, Gateway / Docker | runtime |
 | [typescript](https://www.npmjs.com/package/typescript/v/5.9.3) | 5.9.3 | Apache-2.0 | Gateway / Docker, Web UI | build/dev |
-| [undici](https://www.npmjs.com/package/undici/v/6.28.0) | 6.28.0 | MIT | Desktop | build/dev |
-| [undici](https://www.npmjs.com/package/undici/v/7.29.0) | 7.29.0 | MIT | Desktop | build/dev |
+| [undici](https://www.npmjs.com/package/undici/v/6.29.0) | 6.29.0 | MIT | Desktop | build/dev |
+| [undici](https://www.npmjs.com/package/undici/v/7.30.0) | 7.30.0 | MIT | Desktop | build/dev |
 | [undici-types](https://www.npmjs.com/package/undici-types/v/7.18.2) | 7.18.2 | MIT | Desktop, Gateway / Docker | build/dev |
 | [undici-types](https://www.npmjs.com/package/undici-types/v/8.3.0) | 8.3.0 | MIT | Android | build/dev |
 | [unified](https://www.npmjs.com/package/unified/v/11.0.5) | 11.0.5 | MIT | Web UI | runtime |
