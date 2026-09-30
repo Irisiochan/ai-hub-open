@@ -1,0 +1,141 @@
+import type { z } from 'zod';
+
+export type ContactBackend = 'claude-cli' | 'codex' | 'grok-cli' | 'opencode-cli' | 'kimi-cli' | 'api' | 'room';
+export type ContactKind = 'dm' | 'room';
+export type ApiProvider = 'anthropic' | 'openai-compat' | 'gemini';
+
+export const WORKFLOW_RUNNERS: Array<'claude' | 'codex' | 'grok' | 'opencode'>;
+export const CLI_CONTACT_BACKENDS: ContactBackend[];
+export function isCliContactBackend(backend: ContactBackend | string): boolean;
+
+export interface ContactMemoryConfig {
+  injectOnSpawn?: boolean;
+  searchPerTurn?: boolean;
+  capture?: boolean;
+  maxTurnChars?: number;
+  sessionMaxAgeHours?: number;
+  [key: string]: unknown;
+}
+
+export interface ProjectAccessConfig {
+  enabled: boolean;
+  workspace: string;
+  allowShell: boolean;
+  [key: string]: unknown;
+}
+
+export interface DelegationConfig {
+  enabled: boolean;
+  workspaces: string[];
+  runners: Array<'claude' | 'codex' | 'grok' | 'opencode'>;
+  allowShell: boolean;
+  allowSsh: boolean;
+  workerId?: string;
+  maxOpenJobs: number;
+  [key: string]: unknown;
+}
+
+export interface HeartbeatTaobaoConfig {
+  enabled: boolean;
+  mode: 'browse' | 'cart' | 'full';
+  [key: string]: unknown;
+}
+
+export interface HeartbeatConfig {
+  enabled: boolean;
+  taobao: HeartbeatTaobaoConfig;
+  [key: string]: unknown;
+}
+
+export interface RoutingConfig {
+  enabled: boolean;
+  recipientKey?: string;
+  categories: string[];
+  minPriority: 1 | 2 | 3;
+  dailyLimit: number;
+  cooldownMinutes: number;
+  fallback: boolean;
+  [key: string]: unknown;
+}
+
+export interface ContactConfig {
+  cliPath?: string;
+  cwd?: string;
+  model: string;
+  modelOptions: Array<string | { id: string; label?: string; [key: string]: unknown }>;
+  effort: string;
+  turnIdleTimeoutMs?: number;
+  turnHardTimeoutMs?: number;
+  memory: ContactMemoryConfig;
+  delegation: DelegationConfig;
+  heartbeat: HeartbeatConfig;
+  routing: RoutingConfig;
+  projectAccess: ProjectAccessConfig;
+  /** Cross-contact life events: extract from this contact's DM + inject other contacts' events per turn. */
+  lifeEvents: 'on' | 'off';
+  /** Scene-craft block: always=session preamble, scene=per-turn fail-open scene gate, off=never. */
+  sceneCraft: 'always' | 'scene' | 'off';
+  maxSessionInputTokens: number;
+  roomDeliveryMaxChars: number;
+  roomDeliveryMaxMessages: number;
+  allowedTools?: string[];
+  disallowedTools?: string[];
+  appendSystemPrompt?: string;
+  permissionMode?: string;
+  mcpConfig?: string;
+  developerInstructions?: string;
+  provider?: ApiProvider;
+  baseUrl?: string;
+  apiKey?: string;
+  apiKeyRef?: string;
+  visionModel?: string;
+  supportsImages?: boolean;
+  systemPrompt?: string;
+  maxHistoryMessages?: number;
+  historyTokenBudget?: number;
+  minRecentTurns?: number;
+  summaryMaxTokens?: number;
+  historySummaryStrategy?: 'extractive' | 'off' | 'external';
+  memoryPreambleMode?: 'full' | 'compact' | 'off';
+  promptCache?: 'auto' | 'off';
+  maxTokens?: number;
+  contextWindowTokens?: number;
+  harness?: {
+    enabled: boolean;
+    command: string;
+    home: string;
+    workspace: string;
+    port: number;
+    [key: string]: unknown;
+  };
+  members?: string[];
+  reactionRounds?: number;
+  respondAllByDefault?: boolean;
+  [key: string]: unknown;
+}
+
+export const MemoryConfigSchema: z.ZodType<ContactMemoryConfig>;
+export const ProjectAccessSchema: z.ZodType<ProjectAccessConfig>;
+export const DelegationConfigSchema: z.ZodType<DelegationConfig>;
+export const HeartbeatTaobaoConfigSchema: z.ZodType<HeartbeatTaobaoConfig>;
+export const HeartbeatConfigSchema: z.ZodType<HeartbeatConfig>;
+export const RoutingConfigSchema: z.ZodType<RoutingConfig>;
+export const ClaudeContactConfigSchema: z.ZodType<ContactConfig>;
+export const CodexContactConfigSchema: z.ZodType<ContactConfig>;
+export const GrokContactConfigSchema: z.ZodType<ContactConfig>;
+export const ApiContactConfigSchema: z.ZodType<ContactConfig>;
+export const RoomContactConfigSchema: z.ZodType<ContactConfig>;
+export const ContactConfigSchemas: Record<ContactBackend, z.ZodType<ContactConfig>>;
+
+export function contactConfigSchema(backend: ContactBackend | string, kind?: ContactKind): z.ZodType<ContactConfig>;
+export function parseStoredContactConfig(
+  backend: ContactBackend | string,
+  kind: ContactKind,
+  raw: unknown
+): ContactConfig;
+export function validateContactConfig(
+  backend: ContactBackend | string,
+  kind: ContactKind,
+  input: unknown
+): z.SafeParseReturnType<unknown, ContactConfig>;
+export function formatContactConfigError(error: z.ZodError): string;

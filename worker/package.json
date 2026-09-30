@@ -1,0 +1,15 @@
+{
+  "name": "ai-hub-pc-worker",
+  "private": true,
+  "version": "0.2.1",
+  "type": "module",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "start": "node worker.mjs",
+    "start:triage": "node triage-worker.mjs",
+    "cleanup:route-auto-claims": "node triage-worker.mjs --route-auto-cleanup",
+    "test": "node --test"
+  }
+}

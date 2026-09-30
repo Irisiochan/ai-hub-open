@@ -1,0 +1,202 @@
+# Changelog
+
+## Unreleased
+
+## 0.4.2 - 2026-09-28
+
+- Split the scene-craft prompt block into mechanism and content. `server/src/memory/inject.ts`
+  keeps the switch, the fail-open per-turn scene gate and the multi-signal engineering skip;
+  the block text, trigger lexicon and regression samples live in `sceneCraftContent.ts`, and
+  the gate smokes read their fixtures from that module instead of hard-coding phrases. The
+  public mirror ships neutral narrative-writing content for it.
+- The per-contact switch is now `sceneCraft` with values `always | scene | off` (default
+  `scene`); if you customized the previous key, set it again under the new name.
+- Replace remaining persona names, relationship wording and deployment-specific host details
+  in docs, tests and fixtures with neutral placeholders. The web visual-regression PNG
+  baselines are no longer shipped because they were rendered from a private fixture; generate
+  a local set with `web/visual-regression/capture.mjs`.
+- Bump `@ai-hub/contact-config` to 0.1.5 (comment-only change).
+
+This public release is a curated, sanitized snapshot based on private source revision
+`ead90b1645c09aa1a4f4527660af1dee8e26e49a`; private contacts, personas, real evaluation data,
+databases, credentials, token-rotation scripts, and author-specific deployment tooling are excluded.
+
+## 0.4.1 - 2026-09-26
+
+- Make OpenCode stall recovery work on Linux Workers. Process-tree enumeration previously
+  returned nothing outside Windows, so every stall on a Linux/VPS Worker failed closed as
+  `blocked` instead of resuming the same session. The Worker now reads `/proc/<pid>/stat`,
+  identifies processes by start time tagged with the boot id, traces orphans through session
+  membership (the POSIX runner is a detached session leader), accepts a known process that
+  was reparented, and waits a bounded time for signaled processes to exit before the final
+  cleanup check.
+- Make the Worker tests platform-aware instead of asserting Windows behavior on Linux, and
+  fix POSIX path splitting in the release-SHA lookup (`releaseShaFromRoot`).
+- Run `core-checks`, including the shared-package version guard, on pushes to `main`, so
+  public mirror releases get the same checks as the private trunk.
+
+This public release is a curated, sanitized snapshot based on private source revision
+`5ad8e4b32df279238db6825edf429f1a6be8774a`; private contacts, personas, real evaluation data,
+databases, credentials, token-rotation scripts, and author-specific deployment tooling are excluded.
+
+## 0.4.0 - 2026-09-26
+
+- Replace Workflow Profiles with seven fixed workflow modules (plan, execute, review,
+  arbitration, merge, deploy, maintenance). Each module binds an agent, model, and reasoning
+  level that can be swapped from the room panel with revision-checked updates; running
+  attempts keep the binding and permission snapshot they were dispatched with, and a
+  terminal attempt can be taken over manually.
+- Move the meeting room to model-driven handoffs: the gateway no longer picks the next stage.
+  Models call `task_handoff` / `execution_start` explicitly against a shared task ledger with
+  frozen handoff snapshots, and every task tool call is checked against a server-built turn
+  context, so a contact cannot act in another room or under another module's binding.
+- Start the next step directly where the outcome is already decided: APPROVE starts the merge
+  closure, REQUEST_CHANGES starts a repair Worker, a stale merge starts a rebase Worker, clean
+  rebases skip re-review, and `after_merge=deploy` closes the task after a verified deploy.
+  Reviews read incremental patches, `task_get` returns a summary section, and attempt and
+  chat-seat usage land in a per-task cost ledger.
+- Run merge and deploy closures through deterministic Node scripts with a fail-closed,
+  server-reverified merge gate, a read-only GET-only closure credential, and raw script receipts.
+- Add Linux/VPS Worker support: config-driven `projectTargets`, workspaces supplied from trusted
+  repo mirrors, Linux paths and process-group kills, capability-card heartbeats that gate
+  dispatch, and automatic commits for execute rounds whose declared tests all pass. The Windows
+  launcher now runs an exported `master` release instead of the live checkout. OpenCode runs get
+  stall detection with one same-session recovery and a read-only bash allowlist for recon.
+- Add a Kimi CLI contact backend with model hot-refresh from `config.toml` and per-turn
+  reasoning effort. CLI turns now split idle and hard timeouts (idle defaults to 5 minutes).
+- Add `workflowOnly` mode: one switch that turns off proactive messages and DeepSeek background
+  work while keeping the meeting room and Workers running.
+- Reorganize the code into functional modules: `server/src/<module>/` behind public `index.ts`
+  files, `web/src/<feature>/`, and separate `triage/` and `runner/` spaces in the worker, with
+  boundary tests enforcing an acyclic dependency graph. CI fails when a `shared/` package changes
+  without a version bump.
+- Remove features that did not earn their upkeep: the finance ledger panel and bill import, idea
+  rooms, absence follow-ups, proactive check-ins, the contact affect scorer, the triage quiet-hour
+  window, conversation category tabs, and the duplicate subscription-quota display.
+- Clear npm audit findings (`multer` 2.4.0, `hono` 4.13.9, `js-yaml`) and regenerate the
+  third-party notices.
+
+This public release is a curated, sanitized snapshot based on private source revision
+`9c96d3e8c2d72bf20cfb33a7219815e1244488f2`; private contacts, personas, real evaluation data,
+databases, credentials, token-rotation scripts, and author-specific deployment tooling are excluded.
+
+## 0.3.3 - 2026-09-07
+
+- Stop bank-statement re-imports from resurrecting refunded spending: the duplicate-update
+  path now only refreshes a transaction when its bill-side fields (status/amount) actually
+  changed — a derived `ignored` kind from the refund cascade no longer looks like bill news —
+  and the refund cascade is re-asserted on every re-import of the refunded wallet row, so a
+  bank row that was already flipped back also heals. Covered by a sequential-import
+  regression (dedup → refund → next bank bill → refund bill again).
+
+This public release is a curated, sanitized snapshot based on private source revision
+`fb880c4116ac100158c38da5fb44c4d9f1738f7f`; private contacts, personas, real evaluation data,
+databases, credentials, token-rotation scripts, and author-specific deployment tooling are excluded.
+
+## 0.3.2 - 2026-09-07
+
+- Cascade wallet-side refunds to the linked bank row: after cross-source dedup the bank
+  transaction is the one month stats count, so re-importing a fully refunded wallet
+  transaction now marks its linked bank row ignored as well instead of leaving the amount
+  in monthly spending.
+- Restore third-party lockfile versions (`media-typer`, `node-api-version`) that a blanket
+  release-version sed had rewritten without changing the resolved tarballs, and regenerate
+  the third-party notices from the corrected locks; version bumps now go through
+  `npm pkg set` + `npm install --package-lock-only`.
+
+This public release is a curated, sanitized snapshot based on private source revision
+`a68119c9c7aa8597e5c6d9825ade365d6280847a`; private contacts, personas, real evaluation data,
+databases, credentials, token-rotation scripts, and author-specific deployment tooling are excluded.
+
+## 0.3.1 - 2026-09-07
+
+- Ship the desktop shell's gateway runtime dependencies (`fflate`, `pino`,
+  `@ai-hub/contact-config`) and stage `server/migrations` into the packaged app; a
+  packaged local-mode gateway previously crashed on boot with `ERR_MODULE_NOT_FOUND`.
+- Add a post-package startup check (`npm run smoke:packaged --prefix desktop`) that boots the
+  win-unpacked gateway via `ELECTRON_RUN_AS_NODE` and requires `/api/health` to answer; CI now
+  runs it after building the installers instead of only proving the installer can be generated.
+- Keep ledger cross-source dedup one-to-one across import batches: bank rows already consumed
+  by an earlier batch can no longer absorb a second same-amount purchase and undercount spending.
+- Refresh a ledger transaction's kind/status/amount when the same transaction ID is re-imported
+  with a changed status (e.g. a full refund), instead of silently skipping it as a duplicate.
+- Route triage escalates three-strike quality failures to the user instead of silently falling
+  back to another model, and the heartbeat's desktop tool bridge now defaults to its
+  least-invasive action.
+
+This public release is a curated, sanitized snapshot based on private source revision
+`80ed2360ad84cdec45a1205b99d14a431bee76d2`; private contacts, personas, real evaluation data,
+databases, credentials, token-rotation scripts, and author-specific deployment tooling are excluded.
+
+## 0.3.0 - 2026-09-06
+
+> **Note:** the `v0.3.0` tag does not compile (its public seed lags a gateway import,
+> fixed on `main` right after tagging). Use `v0.3.1` instead.
+
+- Add a companion heartbeat: periodic autonomous ticks for both CLI and API contacts with
+  randomized intervals, model-decided speech, an unlimited manual mode, and runtime-drawer
+  controls; heartbeats can call device and desktop MCP tools through the PC worker.
+- Add an OpenCode CLI backend (OpenCode Go) with model discovery in the picker, image input
+  via `run --file`, and stdin/idle-timeout fixes.
+- Close the route-triage loop: a patrol contact pre-screens unrouted tasks, suggestions
+  auto-dispatch after an unvetoed veto window, late same-day replies are harvested, and
+  presence checks are timezone-safe.
+- Harden coordination rooms: structured receipts with automated deploy closure, resumable
+  deploy events, guarded receipt pagination, task outcomes and due reminders routed through
+  the room, and worker actions shown on room receipts.
+- Refresh the web client with a Telegram-style shell, controlled theme manifests, motion and
+  sound preferences, split styles with a visual baseline, and bounded long-session rendering.
+- Add a finance ledger import with cross-source deduplication and monthly summaries (removed
+  again in 0.4.0).
+- Add living architecture docs: a product charter, `docs/ARCHITECTURE.md` with a drift-guard
+  test, and a core-implementation convergence pass unifying worker state, task transactions,
+  and gateway contracts.
+- List provider models with a searchable picker and keep Gemini tool schemas compatible by
+  stripping unsupported JSON Schema keys.
+- Refresh dependency locks (fast-uri, @xmldom/xmldom, and a `qs` override where the express
+  chain pins a vulnerable range); local audits for server, web, mobile, and desktop report
+  zero known vulnerabilities.
+
+This public release is a curated, sanitized snapshot based on private source revision
+`d58aa21a688283d37f876fd3185cb956e8ab579b`; private contacts, personas, real evaluation data,
+databases, credentials, token-rotation scripts, and author-specific deployment tooling are excluded.
+
+## 0.2.1 - 2026-08-25
+
+- Make task rescheduling converge the new `due` value back into Memory Vault so the controller
+  and Agenda no longer expose different dates.
+- Require machine-readable `update_task` success from Vault projections; retry open-task
+  `not_found` outcomes and dead-letter persistent failures instead of silently settling them.
+- Attribute manual runner overrides to the actual runner for display while excluding override
+  outcomes from automatic Workflow Profile fallback statistics.
+- Pin the independent Memory Vault dependency to `v0.7.1` and exercise due write-read plus
+  structured failure behavior in the public contract workflow.
+- Refresh supported dependency locks; local audits for server, web, mobile, and desktop report
+  zero known vulnerabilities.
+- Wait for Git child-process output to close before classifying Worker delivery state, removing a
+  Linux race that could drop branch or ahead/behind evidence.
+
+This public release is a curated, sanitized snapshot based on private source revision
+`be56f9af8379d8c920e2c3029645b94fcae3046a`; private contacts, personas, real evaluation data,
+databases, credentials, token-rotation scripts, and author-specific deployment tooling are excluded.
+
+## 0.2.0 - 2026-08-25
+
+- Add versioned Workflow Profiles with immutable job snapshots, preview/switch/rollback APIs,
+  explicit quality outcomes, and bounded fallback routing.
+- Add a centralized task controller and Vault projection/writeback path so status changes,
+  assignments, and completion receipts converge through one authority.
+- Add the incremental daily Agenda shadow with overflow rotation, suppression/resurface rules,
+  job reconciliation, and quiet no-change days.
+- Split the triage worker into focused modules and add migration visibility plus maintenance mode
+  when its SQLite store cannot be opened or upgraded safely.
+- Add optional cross-contact life-event extraction, image captions, an isolated API-agent harness,
+  and runner-availability signals.
+- Make room orchestration configurable, expire stale coordination dispatches, redact secrets from
+  user-visible backend errors, and close receipt cards whose Vault tasks are already complete.
+- Preserve Memory Vault as an independent `v0.7.0` dependency with contract CI, dependency/license
+  checks, Windows desktop builds, and public-tree sanitization.
+
+This public release is a curated, sanitized snapshot based on private source revision
+`438dec05f42a0e9ce5ed333d0b819aa1e248e507`; private contacts, personas, real evaluation data,
+databases, credentials, and author-specific deployment tooling are excluded.

@@ -1,0 +1,52 @@
+{
+  "port": 3900,
+  "host": "0.0.0.0",
+  "dbPath": "data/hub.db",
+  "agentsDir": "agents",
+  "webDist": "../web/dist",
+  "uploadsDir": "data/uploads",
+  "claude": {
+    "cliPath": "claude",
+    "turnIdleTimeoutMs": 300000,
+    "turnHardTimeoutMs": 900000
+  },
+  "codex": {
+    "cliPath": "codex",
+    "turnIdleTimeoutMs": 300000,
+    "turnHardTimeoutMs": 900000,
+    "nativeCompact": {
+      "enabled": true,
+      "inputTokens": 200000
+    }
+  },
+  "memory": {
+    "mcpUrl": "http://memory-vault:8900/mcp",
+    "repoPath": null,
+    "injectOnSpawn": true,
+    "searchPerTurn": true,
+    "capture": true,
+    "maxTurnChars": 1200,
+    "sessionMaxAgeHours": 12
+  },
+  "backup": {
+    "enabled": true,
+    "dir": "data/backups",
+    "intervalHours": 24,
+    "keep": 14
+  },
+  "grok": {
+    "cliPath": "grok",
+    "turnIdleTimeoutMs": 300000,
+    "turnHardTimeoutMs": 900000
+  },
+  "api": {
+    "turnTimeoutMs": 300000
+  },
+  "reviewBatch": {
+    "size": 3,
+    "intervalMinutes": 30
+  },
+  "workflowOnly": {
+    "enabled": false
+  }
+}

@@ -1,0 +1,173 @@
+{
+  "stateFile": "data/triage.db",
+  "pollMs": 1000,
+  "maxAttempts": 5,
+  "claimTimeoutMs": 300000,
+  "workflowOnly": {
+    "enabled": false
+  },
+  "categories": [
+    "calendar",
+    "file-change",
+    "rss",
+    "backlog",
+    "message",
+    "system",
+    "daily",
+    "idea",
+    "other"
+  ],
+  "deepseek": {
+    "baseUrl": "https://api.deepseek.com",
+    "apiKeyEnv": "DEEPSEEK_API_KEY",
+    "flashModel": "deepseek-v4-flash",
+    "proModel": "deepseek-v4-pro",
+    "timeoutMs": 30000,
+    "backlogMaxChars": 2000,
+    "pricing": {
+      "flash": {
+        "inputCnyPerMillion": 0,
+        "outputCnyPerMillion": 0
+      },
+      "pro": {
+        "inputCnyPerMillion": 0,
+        "outputCnyPerMillion": 0
+      }
+    }
+  },
+  "hub": {
+    "baseUrl": "http://127.0.0.1:3900",
+    "tokenEnv": "HUB_TOKEN",
+    "timeoutMs": 30000
+  },
+  "vault": {
+    "url": "http://127.0.0.1:8900/mcp",
+    "tokenEnv": "VAULT_TOKEN",
+    "sourceTag": "codex",
+    "backlogQuery": "triage-backlog",
+    "cacheMs": 3600000
+  },
+  "routing": {
+    "fuzzyFallback": true,
+    "rules": {
+      "calendar": "calendar-owner",
+      "file-change": "engineering",
+      "backlog": "task-owner"
+    }
+  },
+  "taskReminders": {
+    "enabled": true,
+    "intervalMinutes": 45,
+    "jitterSeconds": 900,
+    "recipient": "claude"
+  },
+  "coordination": {
+    "enabled": false,
+    "roomId": "room-contact-id",
+    "hostName": "DS 主持",
+    "tasksDir": "/opt/memory-vault/tasks",
+    "reminderRoomTags": ["ai-hub", "worker", "deploy", "工程"],
+    "hubAutoHygiene": {
+      "enabled": false,
+      "staleDays": 14
+    },
+    "dailyLimit": 8,
+    "scanIntervalMinutes": 5
+  },
+  "agenda": {
+    "enabled": true,
+    "atHour": 9,
+    "atMinute": 0,
+    "maxAuto": 2,
+    "maxAsk": 3,
+    "jobsLimit": 300,
+    "resurfaceDays": 7
+  },
+  "routeTriage": {
+    "enabled": false,
+    "reviewer": "scout",
+    "allowedRecipients": ["claude", "codex", "scout"],
+    "atHour": 9,
+    "atMinute": 10,
+    "maxItems": 8,
+    "reactionRounds": 1,
+    "roundPollMs": 2000,
+    "roundTimeoutMs": 1200000,
+    "resolveIntervalMinutes": 30,
+    "resolveMaxAgeDays": 30,
+    "statsWeekday": 1,
+    "statsWindowDays": 28,
+    "autoDispatch": {
+      "enabled": false,
+      "delayMinutes": 60,
+      "maxAgeHours": 48,
+      "dailyLimit": 3,
+      "vetoSenders": ["user", "claude"]
+    }
+  },
+  "diary": {
+    "enabled": false,
+    "atHour": 2,
+    "atMinute": 30,
+    "targetOffsetDays": 1,
+    "maxEntries": 8,
+    "extractAttempts": 2,
+    "minMessages": 4,
+    "minUserMessages": 2,
+    "messageLimit": 400,
+    "transcriptMaxChars": 24000,
+    "source": "hub-rollup"
+  },
+  "outcomes": {
+    "enabled": true,
+    "intervalMinutes": 5,
+    "maxAgeDays": 30,
+    "batchSize": 50
+  },
+  "breakers": {
+    "dailyEvents": 2000,
+    "dailyCostCny": 5
+  },
+  "webhook": {
+    "enabled": true,
+    "host": "127.0.0.1",
+    "port": 3911,
+    "tokenEnv": "TRIAGE_WEBHOOK_TOKEN"
+  },
+  "sources": [
+    {
+      "id": "quarter-hour-check",
+      "type": "timer",
+      "intervalMinutes": 15,
+      "jitterSeconds": 900,
+      "category": "system",
+      "summary": "Review current backlog and only act when there is concrete unfinished work."
+    },
+    {
+      "id": "diary-rollup",
+      "type": "diary-rollup"
+    },
+    {
+      "id": "vault-backlog",
+      "type": "vault-backlog",
+      "intervalMinutes": 15,
+      "query": "triage-backlog",
+      "emitInitial": false
+    },
+    {
+      "id": "project-watch",
+      "type": "file",
+      "path": "/srv/projects",
+      "recursive": false,
+      "category": "file-change"
+    },
+    {
+      "id": "example-feed",
+      "type": "http-diff",
+      "url": "https://example.com/feed.xml",
+      "intervalMinutes": 30,
+      "category": "rss",
+      "emitInitial": false
+    }
+  ]
+}

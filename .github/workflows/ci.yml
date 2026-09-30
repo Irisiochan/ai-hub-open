@@ -1,0 +1,52 @@
+name: core-checks
+
+on:
+  pull_request:
+  push:
+    # master is the private trunk; main is the public mirror's default branch.
+    branches: [master, main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        area: [server, web, worker]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install locked dependencies
+        if: matrix.area != 'worker'
+        run: npm ci --prefix "${{ matrix.area }}" --no-audit --no-fund
+      - name: Build
+        if: matrix.area != 'worker'
+        run: npm run build --prefix "${{ matrix.area }}"
+      - name: Test
+        run: npm test --prefix "${{ matrix.area }}"
+      - name: Worker state events
+        if: matrix.area == 'server'
+        working-directory: server
+        run: node --import tsx scripts/smoke-worker-control.ts
+
+  shared-packages:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # the drift check compares shared/* with the commit that set each version
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Shared package versions track their content and consumer locks
+        run: node deploy/check-shared-packages.mjs --require-history
+      - name: Guard self-test
+        run: node --test deploy/check-shared-packages.test.mjs

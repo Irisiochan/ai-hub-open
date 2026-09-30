@@ -1,0 +1,71 @@
+{
+  "port": 3900,
+  "host": "127.0.0.1",
+  "dbPath": "data/hub.db",
+  "agentsDir": "agents",
+  "webDist": "../web/dist",
+  "uploadsDir": "data/uploads",
+  "claude": {
+    "cliPath": "claude",
+    "turnIdleTimeoutMs": 300000,
+    "turnHardTimeoutMs": 900000
+  },
+  "codex": {
+    "cliPath": "codex",
+    "turnIdleTimeoutMs": 300000,
+    "turnHardTimeoutMs": 900000,
+    "nativeCompact": {
+      "enabled": true,
+      "inputTokens": 200000
+    }
+  },
+  "memory": {
+    "mcpUrl": null,
+    "repoPath": null,
+    "injectOnSpawn": false,
+    "searchPerTurn": false,
+    "capture": false,
+    "maxTurnChars": 1200,
+    "sessionMaxAgeHours": 12
+  },
+  "grok": {
+    "cliPath": "grok",
+    "turnIdleTimeoutMs": 300000,
+    "turnHardTimeoutMs": 900000
+  },
+  "opencode": {
+    "cliPath": "opencode",
+    "turnIdleTimeoutMs": 300000,
+    "turnHardTimeoutMs": 900000
+  },
+  "api": {
+    "turnTimeoutMs": 300000
+  },
+  "reviewBatch": {
+    "size": 3,
+    "intervalMinutes": 30
+  },
+  "workflowOnly": {
+    "enabled": false
+  },
+  "projectTargets": {
+    "ai-dashboard": {
+      "repoId": "ai-dashboard",
+      "platform": "linux",
+      "workerId": "vps-dev",
+      "workspace": "/srv/ai-dev/jobs",
+      "runners": ["codex", "opencode"],
+      "ssh": false,
+      "shell": true
+    },
+    "ai-hub": {
+      "repoId": "ai-hub",
+      "platform": "linux",
+      "workerId": "vps-dev",
+      "workspace": "/srv/ai-dev/jobs",
+      "runners": ["codex", "opencode"],
+      "ssh": false,
+      "shell": true
+    }
+  }
+}

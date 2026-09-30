@@ -1,0 +1,27 @@
+@import './styles/tokens.css';
+@import './styles/layout.css';
+@import './styles/chat.css';
+@import './styles/overlays.css';
+@import './styles/jobs.css';
+@import './styles/integrations.css';
+@import './styles/mobile.css';
+@import './styles/theme.css';
+@import './styles/runtime.css';
+@import './styles/settings.css';
+@import './styles/worker.css';
+@import './styles/workflow.css';
+@import './styles/roomTasks.css';
+@import './styles/motion.css';
+
+/*
+ * Static selector contracts retained for the existing source-level web tests.
+ * The emitted declarations live once, in the imported semantic stylesheets.
+ *
+ * .job-thread { flex-shrink: 0; }
+ * .job-execution-overlay { position: fixed; inset: 0; }
+ * .job-execution-scroll { overflow-y: auto; }
+ * .msg-actions { opacity: 0; }
+ * .msg-group:hover .msg-actions,
+ * .msg-group.selected .msg-actions { position: static; align-self: flex-end; }
+ * @media (hover: none) { .msg-group:hover .msg-actions { position: absolute; } }
+ */
