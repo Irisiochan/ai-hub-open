@@ -23,7 +23,7 @@
     "zod": "^3.25.0"
   },
   "devDependencies": {
-    "electron": "43.4.0",
+    "electron": "43.7.6",
     "electron-builder": "26.15.3"
   },
   "overrides": {
