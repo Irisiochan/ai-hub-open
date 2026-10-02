@@ -259,9 +259,9 @@ Generated component versions: **704**.
 | [body-parser](https://www.npmjs.com/package/body-parser/v/2.3.0) | 2.3.0 | MIT | Desktop, Gateway / Docker | runtime |
 | [boolean](https://www.npmjs.com/package/boolean/v/3.2.0) | 3.2.0 | MIT | Desktop | build/dev |
 | [bplist-parser](https://www.npmjs.com/package/bplist-parser/v/0.3.2) | 0.3.2 | MIT | Android | build/dev |
-| [brace-expansion](https://www.npmjs.com/package/brace-expansion/v/1.1.18) | 1.1.18 | MIT | Desktop | build/dev |
-| [brace-expansion](https://www.npmjs.com/package/brace-expansion/v/2.1.4) | 2.1.4 | MIT | Desktop | build/dev |
-| [brace-expansion](https://www.npmjs.com/package/brace-expansion/v/5.0.9) | 5.0.9 | MIT | Android, Desktop | build/dev |
+| [brace-expansion](https://www.npmjs.com/package/brace-expansion/v/1.1.21) | 1.1.21 | MIT | Desktop | build/dev |
+| [brace-expansion](https://www.npmjs.com/package/brace-expansion/v/2.1.7) | 2.1.7 | MIT | Desktop | build/dev |
+| [brace-expansion](https://www.npmjs.com/package/brace-expansion/v/5.0.12) | 5.0.12 | MIT | Android, Desktop | build/dev |
 | [browserslist](https://www.npmjs.com/package/browserslist/v/4.28.8) | 4.28.8 | MIT | Web UI | build/dev |
 | [buffer](https://www.npmjs.com/package/buffer/v/5.7.1) | 5.7.1 | MIT | Desktop, Gateway / Docker | runtime |
 | [buffer-crc32](https://www.npmjs.com/package/buffer-crc32/v/0.2.13) | 0.2.13 | MIT | Android | build/dev |
@@ -370,7 +370,7 @@ Generated component versions: **704**.
 | [express-rate-limit](https://www.npmjs.com/package/express-rate-limit/v/8.6.2) | 8.6.2 | MIT | Desktop, Gateway / Docker | runtime |
 | [extend](https://www.npmjs.com/package/extend/v/3.0.2) | 3.0.2 | MIT | Web UI | runtime |
 | [fast-deep-equal](https://www.npmjs.com/package/fast-deep-equal/v/3.1.3) | 3.1.3 | MIT | Desktop, Gateway / Docker | runtime |
-| [fast-uri](https://www.npmjs.com/package/fast-uri/v/3.1.7) | 3.1.7 | BSD-3-Clause | Desktop, Gateway / Docker | runtime |
+| [fast-uri](https://www.npmjs.com/package/fast-uri/v/3.1.8) | 3.1.8 | BSD-3-Clause | Desktop, Gateway / Docker | runtime |
 | [fd-slicer](https://www.npmjs.com/package/fd-slicer/v/1.1.0) | 1.1.0 | MIT | Android | build/dev |
 | [fdir](https://www.npmjs.com/package/fdir/v/6.5.0) | 6.5.0 | MIT | Desktop, Web UI | build/dev |
 | [fflate](https://www.npmjs.com/package/fflate/v/0.8.3) | 0.8.3 | MIT | Desktop, Gateway / Docker, Web UI | runtime |
